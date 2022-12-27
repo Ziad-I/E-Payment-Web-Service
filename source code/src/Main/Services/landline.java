@@ -18,6 +18,8 @@ public class landline extends Service {
             landlineProvider.message();
             this.setCost(landlineProvider.getCost());
         }
+
+        this.setCashAvailable(false);
     }
 
     @Override

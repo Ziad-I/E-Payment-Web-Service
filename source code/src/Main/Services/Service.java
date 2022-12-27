@@ -29,6 +29,10 @@ public abstract class Service {
     private IPaymentMethod paymentMethod;
 
 
+
+    private boolean cashAvailable = true;
+
+
     public Service() {
         serviceID = idCounter++;
     }
@@ -68,15 +72,20 @@ public abstract class Service {
 
     public abstract double calculateCost();
 
-    public void pay()
-    {
+    public void pay() {
         System.out.println("how would you like to pay?\n1- wallet\n2- cash");
         Scanner sc = new Scanner(System.in);
         int choice = sc.nextInt();
         if(choice == 1)
             setPaymentMethod(new payWithWallet());
-        else if(choice == 2)
-            setPaymentMethod(new payWithCash());
+        else if (choice == 2) {
+            if (cashAvailable)
+                setPaymentMethod(new payWithCash());
+            else {
+                // tell the user that they can't pay with cash
+                setPaymentMethod(new payWithWallet());
+            }
+    }
         paymentMethod.pay(client, cost);
     }
 
@@ -98,5 +107,14 @@ public abstract class Service {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+
+    public boolean isCashAvailable() {
+        return cashAvailable;
+    }
+
+    public void setCashAvailable(boolean cashAvailable) {
+        this.cashAvailable = cashAvailable;
     }
 }

@@ -23,6 +23,8 @@ public class Donation extends Service {
         System.out.println("please enter the donation amount: ");
         this.setCost(sc.nextDouble());
 
+        this.setCashAvailable(false);
+
         if(donationProvider != null)
             donationProvider.message();
     }
@@ -31,4 +33,6 @@ public class Donation extends Service {
     public double calculateCost() {
         return this.getCost();
     }
+
+
 }
