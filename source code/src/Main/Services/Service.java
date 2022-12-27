@@ -1,6 +1,7 @@
 package Main.Services;
 
 import Main.Client.Client;
+import Main.Client.Transaction;
 import Main.PaymentMethod.IPaymentMethod;
 import Main.PaymentMethod.payWithCash;
 import Main.PaymentMethod.payWithWallet;
@@ -86,6 +87,8 @@ public abstract class Service {
                 setPaymentMethod(new payWithWallet());
             }
     }
+        Transaction transaction = new Transaction(client.getUsername(), cost);
+        Transaction.paymentTransactions.add(transaction);
         paymentMethod.pay(client, cost);
     }
 
