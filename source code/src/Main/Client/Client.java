@@ -24,6 +24,8 @@ public class Client {
         wallet = new Wallet();
     }
 
+
+    // in API
     public boolean signIn(String username, String password) throws IOException {
         File file = new File("accounts.txt");
         file.createNewFile();
@@ -44,6 +46,7 @@ public class Client {
         return false;
     }
 
+    // in API
     public boolean signUp(String username, String password) throws IOException {
         File file = new File("accounts.txt");
         file.createNewFile();
@@ -67,6 +70,7 @@ public class Client {
         return true;
     }
 
+    // in API
     public void search(String serviceName)
     {
         if(Service.search(serviceName))
@@ -75,6 +79,7 @@ public class Client {
             System.out.println("service not found");
     }
 
+    // in API
     public void useService(String serviceName, String additional)
     {
         ServiceFactory serviceFactory = new ServiceFactory();
@@ -102,6 +107,11 @@ public class Client {
         }
     }
 
+    // in API
+    public void addToWallet(double balance) {
+        this.wallet.addBalance(balance);
+    }
+
     public void checkDiscount()
     {
         Service.checkDiscounts();
@@ -123,10 +133,7 @@ public class Client {
         this.wallet = wallet;
     }
 
-    public void addToWallet(double balance)
-    {
-        this.wallet.addBalance(balance);
-    }
+
 }
 
 
