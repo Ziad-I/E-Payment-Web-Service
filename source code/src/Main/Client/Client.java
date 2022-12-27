@@ -10,13 +10,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Client {
 
     private String username;
     private String password;
-    Service service;
-    Wallet wallet;
+    private Vector<Service> serviceHistory = new Vector<>();
+    private Wallet wallet;
 
     public Client()
     {
@@ -77,7 +78,7 @@ public class Client {
     public void useService(String serviceName, String additional)
     {
         ServiceFactory serviceFactory = new ServiceFactory();
-        service = serviceFactory.createService(serviceName, additional);
+        Service service = serviceFactory.createService(serviceName, additional);
         service.setClient(this);
         if(!Service.discounts.isEmpty())
         {
@@ -88,11 +89,12 @@ public class Client {
         }
         service.setCost(service.calculateCost());
         service.pay();
+        serviceHistory.add(service);
     }
 
-    public void requestRefund()
+    public void requestRefund(Service service)
     {
-        if(service == null)
+        if(serviceHistory.isEmpty())
             System.out.println("please use a service first");
         else {
             Refund refund = new Refund(service, this);
@@ -111,14 +113,6 @@ public class Client {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
     }
 
     public Wallet getWallet() {
