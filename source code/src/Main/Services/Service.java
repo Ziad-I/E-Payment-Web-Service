@@ -5,10 +5,7 @@ import Main.PaymentMethod.IPaymentMethod;
 import Main.PaymentMethod.payWithCash;
 import Main.PaymentMethod.payWithWallet;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 public abstract class Service {
 
@@ -22,16 +19,17 @@ public abstract class Service {
         add("landline");
         add("donations");
     }};
-    public static Map<String, Boolean> discounts = new HashMap<>(){{
-        put("overall discount", false);
-        put("specific discount", false);
+    public static boolean overallDiscount = false;
+
+    public static Map<String, Boolean> specificDiscount = new HashMap<>(){{
+        put("mobile recharge", false);
+        put("internet payment", false);
+        put("landline", false);
+        put("donations", false);
     }};
     private IPaymentMethod paymentMethod;
 
-
-
     private boolean cashAvailable = true;
-
 
     public Service() {
         serviceID = idCounter++;
@@ -52,22 +50,24 @@ public abstract class Service {
         this.paymentMethod = paymentMethod;
     }
 
-    public static void addDiscount(String discountType)
+    public static void addDiscount(String discountType, String serviceName)
     {
-        discounts.put(discountType, true);
+        if(discountType.equals("overall discount"))
+            overallDiscount = true;
+        else if(discountType.equals("specific discount"))
+            specificDiscount.put(serviceName, true);
     }
 
-    public static void checkDiscounts()
+    public static Vector<String> checkDiscounts()
     {
-        if(!discounts.get("overall discount") && !discounts.get("specific discount"))
-            System.out.println("no discounts available!");
-        else
-        {
-            if (discounts.get("overall discount"))
-                System.out.println("there is an overall discount");
-            if (discounts.get("specific discount"))
-                System.out.println("there is a specific discount");
+        Vector<String> availableDiscounts = new Vector<>();
+        if(overallDiscount)
+            availableDiscounts.add("overall discount");
+        for(Map.Entry<String, Boolean> entry:specificDiscount.entrySet()){
+            if(entry.getValue())
+                availableDiscounts.add(entry.getKey());
         }
+        return availableDiscounts;
     }
 
     public abstract double calculateCost();
@@ -108,7 +108,6 @@ public abstract class Service {
     public void setClient(Client client) {
         this.client = client;
     }
-
 
     public boolean isCashAvailable() {
         return cashAvailable;

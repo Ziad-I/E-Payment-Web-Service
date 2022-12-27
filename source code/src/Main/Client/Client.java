@@ -18,7 +18,6 @@ public class Client {
     private String password;
     private Vector<Service> serviceHistory = new Vector<>();
     private Wallet wallet;
-
     private creditCard card;
 
     public Client()
@@ -88,13 +87,10 @@ public class Client {
         ServiceFactory serviceFactory = new ServiceFactory();
         Service service = serviceFactory.createService(serviceName, additional);
         service.setClient(this);
-        if(!Service.discounts.isEmpty())
-        {
-            if(Service.discounts.get("overall discount"))
+        if(Service.overallDiscount && serviceHistory.isEmpty())
                 service = new overallDiscount(service);
-            if(service.getClass().getName().equals("MobileRecharge") && Service.discounts.get("specific discount"))
+        if(Service.specificDiscount.get(serviceName))
                 service = new specificDiscount(service);
-        }
         service.setCost(service.calculateCost());
         service.pay();
         serviceHistory.add(service);

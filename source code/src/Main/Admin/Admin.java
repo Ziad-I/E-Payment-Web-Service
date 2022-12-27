@@ -45,9 +45,9 @@ public class Admin {
         Refund.refunds.clear();
     }
 
-    public void addDiscount(String discountType)
+    public void addDiscount(String discountType, String serviceName)
     {
-        Service.addDiscount(discountType);
+        Service.addDiscount(discountType, serviceName);
     }
 
 }
