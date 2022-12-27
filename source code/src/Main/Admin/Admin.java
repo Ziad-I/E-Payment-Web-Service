@@ -1,5 +1,6 @@
 package Main.Admin;
 
+import Main.Client.Transaction;
 import Main.Refund.Refund;
 import Main.Services.Service;
 
@@ -36,6 +37,10 @@ public class Admin {
                 System.out.println("Request Accepted");
                 refunds.get(i).setAccepted(true);
                 refunds.get(i).returnMoney();
+
+                Transaction transaction = new Transaction(refunds.get(i).getClient().getUsername(),
+                        refunds.get(i).getService().getCost());
+                Transaction.refundTransactions.add(transaction);
             }
             else {
                 System.out.println("Request rejected");
@@ -45,9 +50,18 @@ public class Admin {
         Refund.refunds.clear();
     }
 
-    public void addDiscount(String discountType)
-    {
+    public void addDiscount(String discountType) {
         Service.addDiscount(discountType);
     }
 
+
+    public Vector<Transaction> checkTransactions(int type)
+    {
+        if (type == 1)
+            return Transaction.paymentTransactions;
+        else if(type == 2)
+            return Transaction.addToWalletTransactions;
+        else
+            return Transaction.refundTransactions;
+    }
 }
