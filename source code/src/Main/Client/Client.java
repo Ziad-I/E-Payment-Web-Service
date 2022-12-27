@@ -19,9 +19,12 @@ public class Client {
     private Vector<Service> serviceHistory = new Vector<>();
     private Wallet wallet;
 
+    private creditCard card;
+
     public Client()
     {
         wallet = new Wallet();
+        card = new creditCard();
     }
 
 
@@ -109,7 +112,10 @@ public class Client {
 
     // in API
     public void addToWallet(double balance) {
-        this.wallet.addBalance(balance);
+        if(card.completeTransaction())
+            this.wallet.addBalance(balance);
+        else;
+            // failed
     }
 
     public void checkDiscount()
