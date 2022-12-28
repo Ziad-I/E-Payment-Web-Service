@@ -51,12 +51,23 @@ public abstract class Service {
         this.paymentMethod = paymentMethod;
     }
 
-    public static void addDiscount(String discountType, String serviceName)
+    public static boolean addDiscount(String discountType, String serviceName)
     {
-        if(discountType.equals("overall discount"))
+    	boolean flag = false;
+        if(discountType.equals("overall discount")) {
             overallDiscount = true;
-        else if(discountType.equals("specific discount"))
-            specificDiscount.put(serviceName, true);
+            flag = true;
+        }
+        else if(discountType.equals("specific discount")) {
+        	for(String service:services)
+        	{
+        		if(service.equals(serviceName))
+        			flag = true;
+        	}
+        	if(flag)
+        		specificDiscount.put(serviceName, true);
+        }
+        return flag;
     }
 
     public static Vector<String> checkDiscounts()

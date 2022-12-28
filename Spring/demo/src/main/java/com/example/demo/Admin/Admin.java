@@ -16,53 +16,43 @@ public class Admin {
         this.id = id;
     }
 
-    public void checkRefunds()
+    public Vector<Refund> checkRefunds()
     {
-        Vector<Refund> refunds = Refund.refunds;
+        return Refund.refunds;
+    }
+    
+    public void acceptRefund(int idx)
+    {
+    	Vector<Refund> refunds = Refund.refunds;
+    	refunds.get(idx).setAccepted(true);
+        refunds.get(idx).returnMoney();
 
-        int sz = Refund.refunds.size();
-        for(int i = 0; i < sz; i++)
-        {
-            System.out.println("service name: " + refunds.get(i).getService().getClass().getName());
-            System.out.println("client's username: " + refunds.get(i).getClient().getUsername());
-            System.out.println("service cost to be refunded: " + refunds.get(i).getService().getCost());
-            System.out.println("service id: " + refunds.get(i).getService().getServiceID());
-
-            System.out.println("Do you want to accept this refund Y/N?");
-            Scanner sc = new  Scanner(System.in);
-            String ch = sc.next();
-
-            if(ch.equals("Y"))
-            {
-                System.out.println("Request Accepted");
-                refunds.get(i).setAccepted(true);
-                refunds.get(i).returnMoney();
-
-                Transaction transaction = new Transaction(refunds.get(i).getClient().getUsername(),
-                        refunds.get(i).getService().getCost());
-                Transaction.refundTransactions.add(transaction);
-            }
-            else {
-                System.out.println("Request rejected");
-                refunds.get(i).setAccepted(false);
-            }
-        }
-        Refund.refunds.clear();
+        Transaction transaction = new Transaction(refunds.get(idx).getClient().getUsername(),
+                refunds.get(idx).getService().getCost());
+        Transaction.refundTransactions.add(transaction);
+        Refund.refunds.remove(idx);
+    }
+    
+    public void rejectRefund(int idx)
+    {
+    	Vector<Refund> refunds = Refund.refunds;
+    	refunds.get(idx).setAccepted(false);
     }
 
-    public void addDiscount(String discountType, String serviceName)
+    public boolean addDiscount(String discountType, String serviceName)
     {
-        Service.addDiscount(discountType, serviceName);
+        return Service.addDiscount(discountType, serviceName);
     }
 
 
-    public Vector<Transaction> checkTransactions(int type)
+    public Vector<Transaction> checkTransactions(String type)
     {
-        if (type == 1)
+        if (type.equals("payment"))
             return Transaction.paymentTransactions;
-        else if(type == 2)
+        else if(type.equals("add to wallet"))
             return Transaction.addToWalletTransactions;
-        else
+        else if(type.equals("refund"))
             return Transaction.refundTransactions;
+        return null;
     }
 }
