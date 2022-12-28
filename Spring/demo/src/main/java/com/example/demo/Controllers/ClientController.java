@@ -65,7 +65,7 @@ public class ClientController {
         return ResponseEntity.ok(ret);
     }
 
-    @PostMapping(value = "client/addToWaller")
+    @PostMapping(value = "client/addToWallet")
     public ResponseEntity<String> addToWallet(@RequestBody double balance)
     {
         if (!signedIn)

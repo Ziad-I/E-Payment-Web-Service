@@ -87,12 +87,12 @@ public abstract class Service {
     public String pay(String payMethod)
     {
         String ret = "";
-        if(Objects.equals(payMethod, "wallet"))
+        if(payMethod.equals("wallet"))
         {
             ret += cost + " will be deducted from your wallet\n";
             setPaymentMethod(new payWithWallet());
         }
-        else if (Objects.equals(payMethod, "cash"))
+        else if (payMethod.equals("cash"))
         {
             if (cashAvailable)
             {
