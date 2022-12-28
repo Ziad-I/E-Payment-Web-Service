@@ -6,10 +6,7 @@ import com.example.demo.PaymentMethod.IPaymentMethod;
 import com.example.demo.PaymentMethod.payWithCash;
 import com.example.demo.PaymentMethod.payWithWallet;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 public abstract class Service {
 
@@ -79,12 +76,12 @@ public abstract class Service {
     public String pay(String payMethod)
     {
         String ret = "";
-        if(payMethod == "wallet")
+        if(Objects.equals(payMethod, "wallet"))
         {
             ret += cost + " will be deducted from your wallet\n";
             setPaymentMethod(new payWithWallet());
         }
-        else if (payMethod == "cash")
+        else if (Objects.equals(payMethod, "cash"))
         {
             if (cashAvailable)
             {
@@ -94,9 +91,7 @@ public abstract class Service {
             else
             {
                 // tell the user that they can't pay with cash
-                ret += "Couldn't use cash as the service doesn't accept cash\n" +
-                        cost + " will be deducted from your wallet\n";
-                setPaymentMethod(new payWithWallet());
+                return "Service doesn't accept cash on delivery\nCouldn't complete transaction";
             }
         }
         boolean done = paymentMethod.pay(client, cost);
@@ -107,7 +102,7 @@ public abstract class Service {
             return ret;
         }
         else
-            return "Couldn't complete service due to insufficient money in your wallet";
+            return "Couldn't complete transaction due to insufficient money in your wallet";
 
 
     }
