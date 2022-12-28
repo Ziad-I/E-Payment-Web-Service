@@ -50,13 +50,21 @@ public class ClientController {
         return ResponseEntity.ok(ret);
     }
 
-
+    @PostMapping(value = "client/use-service")
+    public ResponseEntity<String> useService(@RequestBody String serviceName
+            ,@RequestBody String additional ,@RequestBody String paymentMethod)
+    {
+        String ret = client.useService(serviceName, additional, paymentMethod);
+        return ResponseEntity.ok(ret);
+    }
 
     @PostMapping(value = "client/request-refund")
     public ResponseEntity<String>requestRefund(@RequestBody Service service)
     {
-        return ResponseEntity.ok(client.requestRefund(service));
+        String ret = client.requestRefund(service);
+        return ResponseEntity.ok(ret);
     }
+
     @PostMapping(value = "client/addToWaller")
     public ResponseEntity<String> addToWallet(@RequestBody double balance)
     {
@@ -71,6 +79,7 @@ public class ClientController {
     @PostMapping(value = "client/check-discounts")
     public ResponseEntity<Vector<String>> checkDiscount()
     {
-        return ResponseEntity.ok(client.checkDiscount());
+        Vector<String> ret = client.checkDiscount();
+        return ResponseEntity.ok(ret);
     }
 }

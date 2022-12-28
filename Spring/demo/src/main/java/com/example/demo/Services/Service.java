@@ -76,23 +76,40 @@ public abstract class Service {
 
     public abstract double calculateCost();
 
-    public void pay() {
-        System.out.println("how would you like to pay?\n1- wallet\n2- cash");
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        if(choice == 1)
+    public String pay(String payMethod)
+    {
+        String ret = "";
+        if(payMethod == "wallet")
+        {
+            ret += cost + " will be deducted from your wallet\n";
             setPaymentMethod(new payWithWallet());
-        else if (choice == 2) {
+        }
+        else if (payMethod == "cash")
+        {
             if (cashAvailable)
+            {
+                ret += cost + " will be accepted as cash on delivery\n";
                 setPaymentMethod(new payWithCash());
-            else {
+            }
+            else
+            {
                 // tell the user that they can't pay with cash
+                ret += "Couldn't use cash as the service doesn't accept cash\n" +
+                        cost + " will be deducted from your wallet\n";
                 setPaymentMethod(new payWithWallet());
             }
-    }
-        Transaction transaction = new Transaction(client.getUsername(), cost);
-        Transaction.paymentTransactions.add(transaction);
-        paymentMethod.pay(client, cost);
+        }
+        boolean done = paymentMethod.pay(client, cost);
+        if(done)
+        {
+            Transaction transaction = new Transaction(client.getUsername(), cost);
+            Transaction.paymentTransactions.add(transaction);
+            return ret;
+        }
+        else
+            return "Couldn't complete service due to insufficient money in your wallet";
+
+
     }
 
     public int getServiceID() {

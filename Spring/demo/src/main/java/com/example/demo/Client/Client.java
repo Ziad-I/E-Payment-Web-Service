@@ -79,7 +79,7 @@ public class Client {
     }
 
     // in API
-    public void useService(String serviceName, String additional)
+    public String useService(String serviceName, String additional, String paymentMethod)
     {
         ServiceFactory serviceFactory = new ServiceFactory();
         Service service = serviceFactory.createService(serviceName, additional);
@@ -89,8 +89,9 @@ public class Client {
         if(Service.specificDiscount.get(serviceName))
                 service = new specificDiscount(service);
         service.setCost(service.calculateCost());
-        service.pay();
+        String ret = service.pay(paymentMethod);
         serviceHistory.add(service);
+        return ret;
     }
 
     public String requestRefund(Service service)

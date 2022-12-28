@@ -5,12 +5,14 @@ import com.example.demo.Client.Client;
 public class payWithWallet implements IPaymentMethod {
 
     @Override
-    public void pay(Client client, double cost) {
+    public boolean pay(Client client, double cost) {
         if(client.getWallet().getBalance() >= cost) {
             client.getWallet().withdrawBalance(cost);
-            System.out.println(cost + " deducted from your wallet");
+            // cost + " deducted from your wallet";
+            return true;
         }
         else
-            System.out.println("insufficient money");
+            // "insufficient money in your wallet";
+            return false;
     }
 }
