@@ -28,7 +28,6 @@ public class AdminController {
 	@PostMapping("/admin/sign-in")
 	public ResponseEntity<String> signIn(@RequestBody ObjectNode id) throws IOException
 	{
-		admin = new Admin();
 		if(admin.signIn(id.get("id").asText()))
 		{
 			admin = new Admin(id.get("id").asInt());
@@ -50,12 +49,12 @@ public class AdminController {
 			return ResponseEntity.ok("invalid input");
 	}
 	
-	@PostMapping("/admin/transactions")
-	public ResponseEntity checkTransactions(@RequestBody ObjectNode type)
+	@GetMapping("/admin/transactions/{type}")
+	public ResponseEntity checkTransactions(@PathVariable("type") String type)
 	{
 		if (!signedIn)
 			return ResponseEntity.ok("Please sign in first");
-		return ResponseEntity.ok(admin.checkTransactions(type.get("type").asText()));
+		return ResponseEntity.ok(admin.checkTransactions(type));
 	}
 	
 	
@@ -67,22 +66,22 @@ public class AdminController {
 		return ResponseEntity.ok(admin.checkRefunds());
 	}
 	
-	@GetMapping("/admin/refunds/accept/{idx}")
-	public ResponseEntity acceptRefund(@PathVariable("idx") int idx)
+	@PostMapping("/admin/refunds/accept/{idx}")
+	public ResponseEntity<String> acceptRefund(@PathVariable("idx") int idx)
 	{
 		if (!signedIn)
 			return ResponseEntity.ok("Please sign in first");
-		return (admin.acceptRefund(idx)) ? ResponseEntity.status(HttpStatus.ACCEPTED).build() 
-				                         : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return (admin.acceptRefund(idx)) ? ResponseEntity.ok("refund accepted successfully") 
+				                         : ResponseEntity.ok("refund does not exist");
 	}
 	
-	@GetMapping("/admin/refunds/reject/{idx}")
-	public ResponseEntity rejectRefund(@PathVariable("idx") int idx)
+	@PostMapping("/admin/refunds/reject/{idx}")
+	public ResponseEntity<String> rejectRefund(@PathVariable("idx") int idx)
 	{
 		if (!signedIn)
 			return ResponseEntity.ok("Please sign in first");
-		return (admin.rejectRefund(idx)) ? ResponseEntity.status(HttpStatus.ACCEPTED).build() 
-                                         : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		return (admin.rejectRefund(idx)) ? ResponseEntity.ok("refund rejected successfully") 
+                						 : ResponseEntity.ok("refund does not exist");
 	}
 	
 }

@@ -22,7 +22,6 @@ public class Refund {
     public void returnMoney()
     {
         client.getWallet().addBalance(service.getCost());
-        System.out.println(service.getCost() + "$ has been refunded!");
     }
 
     public Service getService() {
