@@ -55,7 +55,7 @@ public class ClientController {
         return ResponseEntity.ok(ret);
     }
 
-    @GetMapping(value = "/client/search") // url: client/search?serviceName=""
+    @GetMapping("/client/search") // url: client/search?serviceName=""
     public ResponseEntity<String> Search(@RequestParam("serviceName") String serviceName)
     {
         if (!signedIn)
@@ -66,7 +66,7 @@ public class ClientController {
         return ResponseEntity.ok(ret);
     }
 
-    @PostMapping(value = "/client/use-service")
+    @PostMapping("/client/use-service")
     public ResponseEntity<String> useService(@RequestBody ObjectNode objNode)
     {
         if (!signedIn)
@@ -82,7 +82,7 @@ public class ClientController {
         return ResponseEntity.ok(ret);
     }
 
-    @PostMapping(value = "/client/request-refund")
+    @PostMapping("/client/request-refund")
     public ResponseEntity<String>requestRefund(@RequestBody Service service)
     {
         if (!signedIn)
@@ -93,7 +93,7 @@ public class ClientController {
     }
 
 
-    @PostMapping(value = "/client/add-to-wallet")
+    @PostMapping("/client/add-to-wallet")
     public ResponseEntity<String> addToWallet(@RequestBody ObjectNode objNode)
     {
         if (!signedIn)
@@ -105,7 +105,7 @@ public class ClientController {
     }
 
 
-    @GetMapping(value = "/client/check-discounts")
+    @GetMapping("/client/check-discounts")
     public ResponseEntity<Vector<String>> checkDiscount()
     {
         Vector<String> ret = client.checkDiscount();

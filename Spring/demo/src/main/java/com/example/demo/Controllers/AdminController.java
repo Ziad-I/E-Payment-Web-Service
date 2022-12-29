@@ -8,18 +8,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Admin.Admin;
 import com.example.demo.Client.Transaction;
 import com.example.demo.Refund.Refund;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+
+@RestController
 public class AdminController {
 	
 	private Admin admin;
 	
+	public AdminController()
+	{
+		admin = new Admin(1);
+	}
 	
-	@PostMapping(value = "/admin/addDiscount")
+	
+	@PostMapping("/admin/addDiscount")
 	public ResponseEntity<String> addDiscount(@RequestBody ObjectNode discountInfo)
 	{
 		if(admin.addDiscount(discountInfo.get("discountType").asText(), discountInfo.get("serviceName").asText()))
@@ -28,26 +36,26 @@ public class AdminController {
 			return ResponseEntity.ok("invalid input");
 	}
 	
-	@PostMapping(value = "/admin/transactions")
+	@PostMapping("/admin/transactions")
 	public ResponseEntity<Vector<Transaction>> checkTransactions(@RequestBody String type)
 	{
 		return ResponseEntity.ok(admin.checkTransactions(type));
 	}
 	
 	
-	@GetMapping(value = "/admin/refunds")
+	@GetMapping("/admin/refunds")
 	public ResponseEntity<Vector<Refund>> checkRefunds()
 	{
 		return ResponseEntity.ok(admin.checkRefunds());
 	}
 	
-	@GetMapping(value = "/admin/refunds/accept/{idx}")
+	@GetMapping("/admin/refunds/accept/{idx}")
 	public ResponseEntity<Void> acceptRefund(@PathVariable("idx") int idx)
 	{
 		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 	}
 	
-	@GetMapping(value = "/admin/refunds/reject/{idx}")
+	@GetMapping("/admin/refunds/reject/{idx}")
 	public ResponseEntity<Void> rejectRefund(@PathVariable("idx") int idx)
 	{
 		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
