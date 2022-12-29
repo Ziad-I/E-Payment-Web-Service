@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.example.demo.Admin.Admin;
 import com.example.demo.Client.Transaction;
 import com.example.demo.Refund.Refund;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class AdminController {
 	
@@ -19,10 +20,12 @@ public class AdminController {
 	
 	
 	@PostMapping(value = "/admin/addDiscount")
-	public ResponseEntity<String> addDiscount(@RequestBody String discountType, @RequestBody String serviceName)
+	public ResponseEntity<String> addDiscount(@RequestBody ObjectNode discountInfo)
 	{
-		return (admin.addDiscount(discountType, serviceName)) ? ResponseEntity.ok("discount added sucessfully!") 
-				 											  : ResponseEntity.status(404).build();
+		if(admin.addDiscount(discountInfo.get("discountType").asText(), discountInfo.get("serviceName").asText()))
+			return ResponseEntity.ok("discount added sucessfully!") ;
+		else
+			return ResponseEntity.ok("invalid input");
 	}
 	
 	@PostMapping(value = "/admin/transactions")
