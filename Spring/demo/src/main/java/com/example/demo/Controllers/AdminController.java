@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @RestController
 public class AdminController {
 	
-	private Admin admin;
+	private Admin admin = new Admin();
 	private boolean signedIn = false;
 	
 	@PostMapping("/admin/sign-in")
