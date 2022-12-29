@@ -119,4 +119,13 @@ public class ClientController {
             ret.add("No available discounts");
         return ResponseEntity.ok(ret);
     }
+
+
+    @GetMapping(value = "/client/sign-out")
+    public ResponseEntity<String> signOut()
+    {
+        this.client = null;
+        signedIn = false;
+        return ResponseEntity.ok("Successfully signed out");
+    }
 }
