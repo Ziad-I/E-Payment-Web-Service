@@ -4,7 +4,7 @@ public class InternetVodafone extends internetPaymentProvider {
 
     public void message()
     {
-        System.out.println("thank you for using vodafone internet payment");
+//        System.out.println("thank you for using vodafone internet payment");
     }
 
 }

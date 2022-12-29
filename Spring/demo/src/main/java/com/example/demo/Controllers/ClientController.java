@@ -22,6 +22,8 @@ public class ClientController {
     public ResponseEntity<String> signIn(@RequestBody ObjectNode objNode) throws IOException
     {
         // use the Client class to sign in the user
+        if(signedIn)
+            return ResponseEntity.ok("You are already signed in");
         client = new Client();
         String username = objNode.get("username").asText();
         String password = objNode.get("password").asText();
@@ -39,6 +41,8 @@ public class ClientController {
     public ResponseEntity<String> signUp(@RequestBody ObjectNode objNode) throws IOException
     {
         // use the Client class to sign in the user
+        if(signedIn)
+            return ResponseEntity.ok("You are already signed in");
         client = new Client();
         String username = objNode.get("username").asText();
         String password = objNode.get("password").asText();
@@ -92,9 +96,9 @@ public class ClientController {
     @PostMapping(value = "/client/add-to-wallet")
     public ResponseEntity<String> addToWallet(@RequestBody ObjectNode objNode)
     {
-        double balance = objNode.get("balance").asDouble();
         if (!signedIn)
             return ResponseEntity.ok("Please login/register first");
+        double balance = objNode.get("balance").asDouble();
 
         String ret = client.addToWallet(balance);
         return ResponseEntity.ok(ret);

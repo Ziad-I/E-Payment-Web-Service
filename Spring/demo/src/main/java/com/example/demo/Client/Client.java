@@ -63,7 +63,8 @@ public class Client {
         }
         this.username = username;
         this.password = password;
-        FileWriter fileWriter = new FileWriter("accounts.txt");
+        FileWriter fileWriter = new FileWriter("accounts.txt", true );
+        fileWriter.write("\n");
         fileWriter.write(username+":"+password);
         fileWriter.close();
         return "successfully registered!";

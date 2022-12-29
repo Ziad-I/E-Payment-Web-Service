@@ -9,7 +9,7 @@ public class quarterlyReceipt extends landlineProvider{
 
     public void message()
     {
-        System.out.println("quarterly receipt costs $" + cost);
+//        System.out.println("quarterly receipt costs $" + cost);
     }
 
 }
