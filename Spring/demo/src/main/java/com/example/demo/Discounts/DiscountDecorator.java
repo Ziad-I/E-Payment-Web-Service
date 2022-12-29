@@ -9,6 +9,8 @@ public abstract class DiscountDecorator extends Service {
     public DiscountDecorator(Service service)
     {
         this.service = service;
+        idCounter--;
+        this.setServiceID(service.getServiceID());
     }
 
     @Override
