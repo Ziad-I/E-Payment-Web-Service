@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Donation extends Service {
 
-    public Donation(String additional)
+    public Donation(String additional, double amount)
     {
         DonationProvider donationProvider = null;
         if(additional.equals("schools"))
@@ -19,9 +19,7 @@ public class Donation extends Service {
         else if(additional.equals("NGOs"))
             donationProvider = new NGOs();
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("please enter the donation amount: ");
-        this.setCost(sc.nextDouble());
+        this.setCost(amount);
 
         this.setCashAvailable(false);
 

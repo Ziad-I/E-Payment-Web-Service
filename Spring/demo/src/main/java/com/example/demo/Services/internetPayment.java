@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class internetPayment extends Service {
 
-    public internetPayment(String additional)
+    public internetPayment(String additional, double amount)
     {
         internetPaymentProvider internetPaymentProvider = null;
         if(additional.equals("etisalat"))
@@ -18,9 +18,7 @@ public class internetPayment extends Service {
         else if(additional.equals("we"))
             internetPaymentProvider = new InternetWe();
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("please enter the internet payment amount: ");
-        this.setCost(sc.nextDouble());
+        this.setCost(amount);
 
         if(internetPaymentProvider != null)
             internetPaymentProvider.message();

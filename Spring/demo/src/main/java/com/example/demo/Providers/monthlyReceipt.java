@@ -9,7 +9,7 @@ public class monthlyReceipt extends landlineProvider{
 
     public void message()
     {
-        System.out.println("monthly receipt costs $" + cost);
+//        System.out.println("monthly receipt costs $" + cost);
     }
 
 }

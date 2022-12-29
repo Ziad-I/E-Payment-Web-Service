@@ -4,16 +4,16 @@ public class Wallet {
 
     private double balance;
 
-    public void addBalance(double balance)
+    public double addBalance(double balance)
     {
         this.balance += balance;
-        System.out.println("your new balance is " + balance);
+        return  this.balance;
     }
 
-    public void withdrawBalance(double balance)
+    public String withdrawBalance(double balance)
     {
         this.balance -= balance;
-        System.out.println("your new balance is " + this.balance);
+        return "your new balance is: " + this.balance + "\n";
     }
 
     public double getBalance() {
