@@ -28,6 +28,7 @@ public class AdminController {
 	@PostMapping("/admin/sign-in")
 	public ResponseEntity<String> signIn(@RequestBody ObjectNode id) throws IOException
 	{
+		admin = new Admin();
 		if(admin.signIn(id.get("id").asText()))
 		{
 			admin = new Admin(id.get("id").asInt());
