@@ -124,6 +124,8 @@ public class ClientController {
     @GetMapping(value = "/client/sign-out")
     public ResponseEntity<String> signOut()
     {
+        if(!signedIn)
+            return ResponseEntity.ok("You are not signed in");
         this.client = null;
         signedIn = false;
         return ResponseEntity.ok("Successfully signed out");
