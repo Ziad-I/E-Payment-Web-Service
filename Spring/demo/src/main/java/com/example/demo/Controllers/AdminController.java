@@ -1,5 +1,6 @@
 package com.example.demo.Controllers;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import org.springframework.http.HttpStatus;
@@ -20,16 +21,26 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class AdminController {
 	
 	private Admin admin;
+	private boolean signedIn = false;
 	
-	public AdminController()
+	@PostMapping("/admin/sign-in")
+	public ResponseEntity<String> signIn(@RequestBody ObjectNode id) throws IOException
 	{
-		admin = new Admin(1);
+		if(admin.signIn(id.get("id").asText()))
+		{
+			admin = new Admin(id.get("id").asInt());
+			signedIn = true;
+			return ResponseEntity.ok("signed in successfully!");
+		}
+		else
+			return ResponseEntity.ok("invalid admin id");
 	}
-	
 	
 	@PostMapping("/admin/addDiscount")
 	public ResponseEntity<String> addDiscount(@RequestBody ObjectNode discountInfo)
 	{
+		if (!signedIn)
+            return ResponseEntity.ok("Please sign in first");
 		if(admin.addDiscount(discountInfo.get("discountType").asText(), discountInfo.get("serviceName").asText()))
 			return ResponseEntity.ok("discount added sucessfully!") ;
 		else
@@ -37,28 +48,38 @@ public class AdminController {
 	}
 	
 	@PostMapping("/admin/transactions")
-	public ResponseEntity<Vector<Transaction>> checkTransactions(@RequestBody String type)
+	public ResponseEntity<Vector<Transaction>> checkTransactions(@RequestBody ObjectNode type)
 	{
-		return ResponseEntity.ok(admin.checkTransactions(type));
+		if (!signedIn)
+			return ResponseEntity.ok(null);
+		return ResponseEntity.ok(admin.checkTransactions(type.get("type").asText()));
 	}
 	
 	
 	@GetMapping("/admin/refunds")
 	public ResponseEntity<Vector<Refund>> checkRefunds()
 	{
+		if (!signedIn)
+			return ResponseEntity.ok(null);
 		return ResponseEntity.ok(admin.checkRefunds());
 	}
 	
 	@GetMapping("/admin/refunds/accept/{idx}")
 	public ResponseEntity<Void> acceptRefund(@PathVariable("idx") int idx)
 	{
-		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+		if (!signedIn)
+            return ResponseEntity.ok(null);
+		return (admin.acceptRefund(idx)) ? ResponseEntity.status(HttpStatus.ACCEPTED).build() 
+				                         : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@GetMapping("/admin/refunds/reject/{idx}")
 	public ResponseEntity<Void> rejectRefund(@PathVariable("idx") int idx)
 	{
-		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+		if (!signedIn)
+            return ResponseEntity.ok(null);
+		return (admin.rejectRefund(idx)) ? ResponseEntity.status(HttpStatus.ACCEPTED).build() 
+                                         : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 }

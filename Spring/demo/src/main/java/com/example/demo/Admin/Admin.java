@@ -4,15 +4,40 @@ import com.example.demo.Client.Transaction;
 import com.example.demo.Refund.Refund;
 import com.example.demo.Services.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class Admin {
 
-    private final int id;
-
+    private int id;
+    
+    public Admin()
+    {
+    	
+    }
+    
     public Admin(int id)
     {
-        this.id = id;
+    	this.id = id;
+    }
+    
+    public boolean signIn(String id) throws IOException {
+        File file = new File("admin.txt");
+        file.createNewFile();
+        Scanner sc = new Scanner(file);
+        while(sc.hasNextLine())
+        {
+            String data = sc.nextLine();
+            if(id.equals(data))
+            {
+                this.id = Integer.parseInt(id);
+                return true;
+
+            }
+        }
+        return false;
     }
 
     public Vector<Refund> checkRefunds()
@@ -20,9 +45,11 @@ public class Admin {
         return Refund.refunds;
     }
     
-    public void acceptRefund(int idx)
+    public boolean acceptRefund(int idx)
     {
     	Vector<Refund> refunds = Refund.refunds;
+    	if(!(idx >= 0 && idx < refunds.size()))
+    		return false;
     	refunds.get(idx).setAccepted(true);
         refunds.get(idx).returnMoney();
 
@@ -30,12 +57,16 @@ public class Admin {
                 refunds.get(idx).getService().getCost());
         Transaction.refundTransactions.add(transaction);
         Refund.refunds.remove(idx);
+        return true;
     }
     
-    public void rejectRefund(int idx)
+    public boolean rejectRefund(int idx)
     {
     	Vector<Refund> refunds = Refund.refunds;
+    	if(!(idx >= 0 && idx < refunds.size()))
+    		return false;
     	refunds.get(idx).setAccepted(false);
+    	return true;
     }
 
     public boolean addDiscount(String discountType, String serviceName)
