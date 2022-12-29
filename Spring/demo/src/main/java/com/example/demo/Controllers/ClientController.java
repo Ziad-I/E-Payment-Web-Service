@@ -88,7 +88,7 @@ public class ClientController {
         if (!signedIn)
             return ResponseEntity.ok("Please login/register first");
 
-        int serviceID = objNode.get("transaction id").asInt();
+        int serviceID = objNode.get("service id").asInt();
         String ret = client.requestRefund(serviceID);
         return ResponseEntity.ok(ret);
     }

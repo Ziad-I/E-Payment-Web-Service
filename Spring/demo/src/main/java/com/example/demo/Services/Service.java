@@ -108,7 +108,7 @@ public abstract class Service {
         String ret = paymentMethod.pay(client, cost);
         if(!(ret.equals("insufficient money in your wallet")))
         {
-            ret = "transaction complete, transaction id is: "+ getServiceID()+"\n" + ret;
+            ret = "transaction complete, service id is: "+ getServiceID()+"\n" + ret;
             Transaction transaction = new Transaction(client.getUsername(), cost);
             Transaction.paymentTransactions.add(transaction);
             return ret;
