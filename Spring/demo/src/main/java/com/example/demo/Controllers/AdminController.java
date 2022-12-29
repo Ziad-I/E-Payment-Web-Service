@@ -48,36 +48,36 @@ public class AdminController {
 	}
 	
 	@PostMapping("/admin/transactions")
-	public ResponseEntity<Vector<Transaction>> checkTransactions(@RequestBody ObjectNode type)
+	public ResponseEntity checkTransactions(@RequestBody ObjectNode type)
 	{
 		if (!signedIn)
-			return ResponseEntity.ok(null);
+			return ResponseEntity.ok("Please sign in first");
 		return ResponseEntity.ok(admin.checkTransactions(type.get("type").asText()));
 	}
 	
 	
 	@GetMapping("/admin/refunds")
-	public ResponseEntity<Vector<Refund>> checkRefunds()
+	public ResponseEntity checkRefunds()
 	{
 		if (!signedIn)
-			return ResponseEntity.ok(null);
+			return ResponseEntity.ok("Please sign in first");
 		return ResponseEntity.ok(admin.checkRefunds());
 	}
 	
 	@GetMapping("/admin/refunds/accept/{idx}")
-	public ResponseEntity<Void> acceptRefund(@PathVariable("idx") int idx)
+	public ResponseEntity acceptRefund(@PathVariable("idx") int idx)
 	{
 		if (!signedIn)
-            return ResponseEntity.ok(null);
+			return ResponseEntity.ok("Please sign in first");
 		return (admin.acceptRefund(idx)) ? ResponseEntity.status(HttpStatus.ACCEPTED).build() 
 				                         : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@GetMapping("/admin/refunds/reject/{idx}")
-	public ResponseEntity<Void> rejectRefund(@PathVariable("idx") int idx)
+	public ResponseEntity rejectRefund(@PathVariable("idx") int idx)
 	{
 		if (!signedIn)
-            return ResponseEntity.ok(null);
+			return ResponseEntity.ok("Please sign in first");
 		return (admin.rejectRefund(idx)) ? ResponseEntity.status(HttpStatus.ACCEPTED).build() 
                                          : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
