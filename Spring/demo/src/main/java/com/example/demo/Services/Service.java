@@ -10,8 +10,8 @@ import java.util.*;
 
 public abstract class Service {
 
-    private static int idCounter = 1;
-    private final int serviceID;
+    public static int idCounter = 1;
+    private int serviceID;
     private double cost;
     protected Client client;
     private static Vector<String> services = new Vector<>(){{
@@ -108,7 +108,7 @@ public abstract class Service {
         String ret = paymentMethod.pay(client, cost);
         if(!(ret.equals("insufficient money in your wallet")))
         {
-            ret = "transaction complete!\n" + ret;
+            ret = "transaction complete, transaction id is: "+ getServiceID()+"\n" + ret;
             Transaction transaction = new Transaction(client.getUsername(), cost);
             Transaction.paymentTransactions.add(transaction);
             return ret;
@@ -138,6 +138,8 @@ public abstract class Service {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    public void setServiceID(int serviceID) { this.serviceID = serviceID; }
 
     public boolean isCashAvailable() {
         return cashAvailable;

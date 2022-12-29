@@ -83,12 +83,13 @@ public class ClientController {
     }
 
     @PostMapping("/client/request-refund")
-    public ResponseEntity<String>requestRefund(@RequestBody Service service)
+    public ResponseEntity<String>requestRefund(@RequestBody ObjectNode objNode)
     {
         if (!signedIn)
             return ResponseEntity.ok("Please login/register first");
 
-        String ret = client.requestRefund(service);
+        int serviceID = objNode.get("transaction id").asInt();
+        String ret = client.requestRefund(serviceID);
         return ResponseEntity.ok(ret);
     }
 
@@ -106,11 +107,25 @@ public class ClientController {
 
 
     @GetMapping("/client/check-discounts")
-    public ResponseEntity<Vector<String>> checkDiscount()
+    public ResponseEntity checkDiscount()
     {
+
+        if (!signedIn)
+            return ResponseEntity.ok("Please login/register first");
+
+
         Vector<String> ret = client.checkDiscount();
         if(ret.size() == 0)
             ret.add("No available discounts");
         return ResponseEntity.ok(ret);
+    }
+
+
+    @GetMapping(value = "/client/sign-out")
+    public ResponseEntity<String> signOut()
+    {
+        this.client = null;
+        signedIn = false;
+        return ResponseEntity.ok("Successfully signed out");
     }
 }

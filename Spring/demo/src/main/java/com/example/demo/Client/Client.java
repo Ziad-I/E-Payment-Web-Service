@@ -86,9 +86,9 @@ public class Client {
         Service service = serviceFactory.createService(serviceName, additional, amount);
         service.setClient(this);
         if(Service.overallDiscount && serviceHistory.isEmpty())
-                service = new overallDiscount(service);
+            service = new overallDiscount(service);
         if(Service.specificDiscount.get(serviceName))
-                service = new specificDiscount(service);
+            service = new specificDiscount(service);
         service.setCost(service.calculateCost());
         service.setClient(this);
         String ret = service.pay(paymentMethod);
@@ -96,13 +96,21 @@ public class Client {
         return ret;
     }
 
-    public String requestRefund(Service service)
+    public String requestRefund(int serviceID)
     {
         if(serviceHistory.isEmpty())
             return "Please use a service first";
-        else {
-            Refund refund = new Refund(service, this);
-             return "Refund requested";
+        else
+        {
+            for(Service service: serviceHistory)
+            {
+                if(serviceID == service.getServiceID())
+                {
+                    Refund refund = new Refund(service, this);
+                    return "Refund requested successfully";
+                }
+            }
+            return "Invalid transaction Id";
         }
     }
 
