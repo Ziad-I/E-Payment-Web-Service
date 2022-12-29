@@ -75,20 +75,21 @@ public class Client {
         if(Service.search(serviceName))
             return "service "+ serviceName+" found";
         else
-            return "service"+ serviceName+" not found";
+            return "service "+ serviceName+" not found";
     }
 
     // in API
-    public String useService(String serviceName, String additional, String paymentMethod)
+    public String useService(String serviceName, String additional, String paymentMethod, double amount)
     {
         ServiceFactory serviceFactory = new ServiceFactory();
-        Service service = serviceFactory.createService(serviceName, additional);
+        Service service = serviceFactory.createService(serviceName, additional, amount);
         service.setClient(this);
         if(Service.overallDiscount && serviceHistory.isEmpty())
                 service = new overallDiscount(service);
         if(Service.specificDiscount.get(serviceName))
                 service = new specificDiscount(service);
         service.setCost(service.calculateCost());
+        service.setClient(this);
         String ret = service.pay(paymentMethod);
         serviceHistory.add(service);
         return ret;
@@ -107,10 +108,10 @@ public class Client {
     // in API
     public String addToWallet(double balance) {
         if(card.withdrawFromCard(balance)) {
-            this.wallet.addBalance(balance);
+            double newBalance = this.wallet.addBalance(balance);
             Transaction transaction = new Transaction(this.username, balance);
             Transaction.addToWalletTransactions.add(transaction);
-            return "Added to wallet successfully";
+            return "Added to wallet successfully\nYour new balance is: "+ newBalance;
         }
         else
             return "Failed to add to wallet";

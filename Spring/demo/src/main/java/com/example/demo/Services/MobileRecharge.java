@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MobileRecharge extends Service {
 
-    public MobileRecharge(String additional)
+    public MobileRecharge(String additional, double amount)
     {
         mobileRechargeProvider mobileRechargeProvider = null;
         if(additional.equals("etisalat"))
@@ -18,9 +18,7 @@ public class MobileRecharge extends Service {
         else if(additional.equals("we"))
             mobileRechargeProvider = new MobileWe();
 
-        Scanner sc = new Scanner(System.in);
-        System.out.println("please enter the recharge amount: ");
-        this.setCost(sc.nextDouble());
+        this.setCost(amount);
 
         if(mobileRechargeProvider != null)
             mobileRechargeProvider.message();

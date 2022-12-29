@@ -23,8 +23,8 @@ public abstract class Service {
     public static boolean overallDiscount = false;
 
     public static Map<String, Boolean> specificDiscount = new HashMap<>(){{
-        put("mobile recharge", false);
-        put("internet payment", false);
+        put("mobile recharge", true);
+        put("internet payment", true);
         put("landline", false);
         put("donations", false);
     }};
@@ -74,10 +74,10 @@ public abstract class Service {
     {
         Vector<String> availableDiscounts = new Vector<>();
         if(overallDiscount)
-            availableDiscounts.add("overall discount");
+            availableDiscounts.add("10% off as an overall discount!");
         for(Map.Entry<String, Boolean> entry:specificDiscount.entrySet()){
             if(entry.getValue())
-                availableDiscounts.add(entry.getKey());
+                availableDiscounts.add("20% off for " +entry.getKey()+"!");
         }
         return availableDiscounts;
     }
@@ -86,17 +86,17 @@ public abstract class Service {
 
     public String pay(String payMethod)
     {
-        String ret = "";
+//         String ret = "";
         if(payMethod.equals("wallet"))
         {
-            ret += cost + " will be deducted from your wallet\n";
+//            ret += "transaction complete!\n";
             setPaymentMethod(new payWithWallet());
         }
         else if (payMethod.equals("cash"))
         {
             if (cashAvailable)
             {
-                ret += cost + " will be accepted as cash on delivery\n";
+//                ret +=  "transaction complete!\n";
                 setPaymentMethod(new payWithCash());
             }
             else
@@ -105,9 +105,10 @@ public abstract class Service {
                 return "Service doesn't accept cash on delivery\nCouldn't complete transaction";
             }
         }
-        boolean done = paymentMethod.pay(client, cost);
-        if(done)
+        String ret = paymentMethod.pay(client, cost);
+        if(!(ret.equals("insufficient money in your wallet")))
         {
+            ret = "transaction complete!\n" + ret;
             Transaction transaction = new Transaction(client.getUsername(), cost);
             Transaction.paymentTransactions.add(transaction);
             return ret;
