@@ -9,19 +9,17 @@ public class Refund {
 
     public static Vector<Refund> refunds = new Vector<>();
     private Service service;
-    private Client client;
     private boolean accepted;
 
-    public Refund(Service service, Client client)
+    public Refund(Service service)
     {
         this.service = service;
-        this.client = client;
         refunds.add(this);
     }
 
     public void returnMoney()
     {
-        client.getWallet().addBalance(service.getCost());
+        service.getClient().getWallet().addBalance(service.getCost());
     }
 
     public Service getService() {
@@ -30,14 +28,6 @@ public class Refund {
 
     public void setService(Service service) {
         this.service = service;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
     }
 
     public boolean isAccepted() {

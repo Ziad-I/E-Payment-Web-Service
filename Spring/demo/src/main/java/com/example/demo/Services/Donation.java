@@ -1,30 +1,28 @@
 package com.example.demo.Services;
 
-import com.example.demo.Providers.CancerHospitals;
 import com.example.demo.Providers.DonationProvider;
-import com.example.demo.Providers.NGOs;
-import com.example.demo.Providers.Schools;
+import com.example.demo.Providers.internetPaymentProvider;
 
 import java.util.Scanner;
 
 public class Donation extends Service {
-
-    public Donation(String additional, double amount)
+	
+	public String distination = null;
+    
+    @Override
+    public boolean init(String additional, double amount)
     {
-        DonationProvider donationProvider = null;
-        if(additional.equals("schools"))
-            donationProvider = new Schools();
-        else if(additional.equals("cancer hospitals"))
-            donationProvider = new CancerHospitals();
-        else if(additional.equals("NGOs"))
-            donationProvider = new NGOs();
+    	for(String distination:DonationProvider.distinations)
+    	{
+    		if(distination.equals(additional))
+    			this.distination = distination;
+    	}
+    	
+    	if(this.distination == null)
+    		return false;
 
         this.setCost(amount);
-
-        this.setCashAvailable(false);
-
-        if(donationProvider != null)
-            donationProvider.message();
+        return true;
     }
 
     @Override

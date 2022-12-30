@@ -15,4 +15,10 @@ public class overallDiscount extends DiscountDecorator{
     public double calculateCost() {
         return (service.getCost() - 0.1*service.getCost());
     }
+    
+    @Override
+    public boolean init(String additional, double cost)
+    {
+    	return true;
+    }
 }

@@ -13,4 +13,10 @@ public class specificDiscount extends DiscountDecorator{
     public double calculateCost() {
         return (service.getCost() - 0.2*service.getCost());
     }
+    
+    @Override
+    public boolean init(String additional, double cost)
+    {
+    	return true;
+    }
 }

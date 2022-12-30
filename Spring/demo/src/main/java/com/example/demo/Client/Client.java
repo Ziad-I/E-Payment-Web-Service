@@ -79,11 +79,13 @@ public class Client {
             return "service "+ serviceName+" not found";
     }
 
-    // in API
+    
     public String useService(String serviceName, String additional, String paymentMethod, double amount)
     {
         ServiceFactory serviceFactory = new ServiceFactory();
-        Service service = serviceFactory.createService(serviceName, additional, amount);
+        Service service = serviceFactory.createService(serviceName);
+        if(!service.init(additional, amount))
+        	return "invalid provider";
         service.setClient(this);
         if(Service.overallDiscount && serviceHistory.isEmpty())
             service = new overallDiscount(service);
@@ -106,11 +108,11 @@ public class Client {
             {
                 if(serviceID == service.getServiceID())
                 {
-                    Refund refund = new Refund(service, this);
+                    Refund refund = new Refund(service);
                     return "Refund requested successfully";
                 }
             }
-            return "Invalid transaction Id";
+            return "Invalid service Id";
         }
     }
 

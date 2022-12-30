@@ -2,26 +2,24 @@ package com.example.demo.Services;
 
 import com.example.demo.Providers.*;
 
-import java.util.Scanner;
-
 public class internetPayment extends Service {
-
-    public internetPayment(String additional, double amount)
+	
+	public String provider = null;
+    
+    @Override
+    public boolean init(String additional, double amount)
     {
-        internetPaymentProvider internetPaymentProvider = null;
-        if(additional.equals("etisalat"))
-            internetPaymentProvider = new InternetEtisalat();
-        else if(additional.equals("orange"))
-            internetPaymentProvider = new InternetOrange();
-        else if(additional.equals("vodafone"))
-            internetPaymentProvider = new InternetVodafone();
-        else if(additional.equals("we"))
-            internetPaymentProvider = new InternetWe();
+    	for(String provider:internetPaymentProvider.providers)
+    	{
+    		if(provider.equals(additional))
+    			this.provider = provider;
+    	}
+    	
+    	if(this.provider == null)
+    		return false;
 
         this.setCost(amount);
-
-        if(internetPaymentProvider != null)
-            internetPaymentProvider.message();
+        return true;
     }
 
     @Override

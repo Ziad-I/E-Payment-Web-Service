@@ -1,25 +1,29 @@
 package com.example.demo.Services;
 
+import java.util.Map;
+
 import com.example.demo.Providers.landlineProvider;
-import com.example.demo.Providers.monthlyReceipt;
-import com.example.demo.Providers.quarterlyReceipt;
-
 public class landline extends Service {
-
-    public landline(String additional)
+	
+	public String receiptType = null;
+	
+    @Override
+    public boolean init(String additional, double amount)
     {
-        landlineProvider landlineProvider = null;
-        if(additional.equals("monthly receipt"))
-            landlineProvider = new monthlyReceipt();
-        else if(additional.equals("quarterly receipt"))
-            landlineProvider = new quarterlyReceipt();
+    	double cost = 0.0;
+    	for(Map.Entry<String, Double> entry:landlineProvider.receipts.entrySet())
+    	{
+    		if(entry.getKey().equals(additional)) {
+    			this.receiptType = additional;
+    			cost = entry.getValue();
+    		}
+    	}
+    	
+    	if(this.receiptType == null)
+    		return false;
 
-        if(landlineProvider != null) {
-            landlineProvider.message();
-            this.setCost(landlineProvider.getCost());
-        }
-
-        this.setCashAvailable(false);
+        this.setCost(cost);
+        return true;
     }
 
     @Override

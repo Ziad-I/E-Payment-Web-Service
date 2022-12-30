@@ -2,17 +2,17 @@ package com.example.demo.Services;
 
 public class ServiceFactory {
 
-    public Service createService(String serviceName, String additional, double amount)
+    public Service createService(String serviceName)
     {
         Service service = null;
         if(serviceName.equals("mobile recharge"))
-            service = new MobileRecharge(additional, amount);
+            service = new MobileRecharge();
         else if(serviceName.equals("internet payment"))
-            service = new internetPayment(additional, amount);
+            service = new internetPayment();
         else if(serviceName.equals("landline"))
-            service = new landline(additional);
+            service = new landline();
         else if(serviceName.equals("donations"))
-            service = new Donation(additional, amount);
+            service = new Donation();
         return service;
     }
 

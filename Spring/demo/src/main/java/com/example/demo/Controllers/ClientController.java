@@ -50,7 +50,7 @@ public class ClientController {
         if(ret == "successfully registered!")
         {
             signedIn = true;
-            ret += "\n Hello, " + username;
+            ret += "\nHello, " + username;
         }
         return ResponseEntity.ok(ret);
     }

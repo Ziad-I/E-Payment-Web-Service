@@ -53,7 +53,7 @@ public class Admin {
     	refunds.get(idx).setAccepted(true);
         refunds.get(idx).returnMoney();
 
-        Transaction transaction = new Transaction(refunds.get(idx).getClient().getUsername(),
+        Transaction transaction = new Transaction(refunds.get(idx).getService().getClient().getUsername(),
                 refunds.get(idx).getService().getCost());
         Transaction.refundTransactions.add(transaction);
         Refund.refunds.remove(idx);

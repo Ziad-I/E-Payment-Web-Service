@@ -118,6 +118,8 @@ public abstract class Service {
 
 
     }
+    
+    public abstract boolean init(String additional, double amount);
 
     public int getServiceID() {
         return serviceID;
