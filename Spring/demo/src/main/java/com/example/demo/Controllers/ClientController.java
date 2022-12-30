@@ -31,7 +31,7 @@ public class ClientController {
         if(ret == "successfully signed in!")
         {
             signedIn = true;
-            ret += "\n Hello, " + username;
+            ret += "\nHello, " + username;
         }
         return ResponseEntity.ok(ret);
     }

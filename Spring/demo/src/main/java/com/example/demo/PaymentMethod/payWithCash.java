@@ -6,6 +6,6 @@ public class payWithCash implements IPaymentMethod {
 
     @Override
     public String pay(Client client, double cost) {
-        return " will be accepted as cash on delivery\n";
+        return cost +" will be accepted as cash on delivery\n";
     }
 }
