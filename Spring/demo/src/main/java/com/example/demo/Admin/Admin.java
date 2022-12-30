@@ -3,6 +3,8 @@ package com.example.demo.Admin;
 import com.example.demo.Client.Transaction;
 import com.example.demo.Refund.Refund;
 import com.example.demo.Services.Service;
+import com.example.demo.Providers.*;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +76,6 @@ public class Admin {
         return Service.addDiscount(discountType, serviceName);
     }
 
-
     public Vector<Transaction> checkTransactions(String type)
     {
         if (type.equals("payment"))
@@ -84,5 +85,32 @@ public class Admin {
         else if(type.equals("refund"))
             return Transaction.refundTransactions;
         return null;
+    }
+
+    public String addProvider(ObjectNode objNode)
+    {
+        String serviceName = objNode.get("service name").asText();
+
+        if(serviceName.equals("mobile recharge")) {
+            String providerName = objNode.get("provider name").asText();
+            mobileRechargeProvider.providers.add(providerName);
+        }
+        else if(serviceName.equals("internet payment")) {
+            String providerName = objNode.get("provider name").asText();
+            internetPaymentProvider.providers.add(providerName);
+        }
+        else if(serviceName.equals("donations")) {
+            String destinationName = objNode.get("destination name").asText();
+            DonationProvider.destinations.add(destinationName);
+        }
+        else if(serviceName.equals("landline"))
+        {
+            String receiptType = objNode.get("receipt type").asText();
+            double cost = objNode.get("cost").asDouble();
+            landlineProvider.receipts.put(receiptType, cost);
+        }
+        else
+            return "Invalid service name";
+        return "Provider added successfully";
     }
 }

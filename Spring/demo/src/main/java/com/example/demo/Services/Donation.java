@@ -12,7 +12,7 @@ public class Donation extends Service {
     @Override
     public boolean init(String additional, double amount)
     {
-    	for(String distination:DonationProvider.distinations)
+    	for(String distination:DonationProvider.destinations)
     	{
     		if(distination.equals(additional))
     			this.distination = distination;

@@ -83,5 +83,17 @@ public class AdminController {
 		return (admin.rejectRefund(idx)) ? ResponseEntity.ok("refund rejected successfully") 
                 						 : ResponseEntity.ok("refund does not exist");
 	}
-	
+
+
+	@PostMapping(value = "/admin/add-provider")
+	public ResponseEntity<String> addProvider(@RequestBody ObjectNode objNode)
+	{
+		if (!signedIn)
+			return ResponseEntity.ok("Please sign in first");
+
+		String ret = admin.addProvider(objNode);
+
+		return ResponseEntity.ok(ret);
+
+	}
 }
