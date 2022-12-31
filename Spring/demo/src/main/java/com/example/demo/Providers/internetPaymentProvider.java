@@ -11,6 +11,5 @@ public abstract class internetPaymentProvider {
 		add("we");
 	}};
 
-    public abstract void message();
 
 }

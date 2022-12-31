@@ -11,6 +11,5 @@ public abstract class mobileRechargeProvider {
 		add("we");
 	}};
 	
-    public abstract void message();
 
 }

@@ -10,6 +10,5 @@ public abstract class DonationProvider {
 		add("NGOs");
 	}};
 	
-    public abstract void message();
 
 }
