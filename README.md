@@ -1,18 +1,34 @@
-# Software-Project
+# E-Payment System Web Service
 
-Software project
+This web service allows users to use a E-payment system. It has the following features:
 
-done by:
+  - Register/Login customers to the system.
+  - Customers can add money to their wallet.
+  - Customers can search for a service.
+  - Customers can use a specific service.
+  - Customers can apply/search for discounts.
+  - Customers can request refund on a service.
+  - Login for the admin.
+  - Admin can add a provider.
+  - Admin can check all refunds and accept/reject them.
+  - Admin can check all Transactions.
 
-Ziad Ibrahim Galal 20200193
+## Dependencies
 
-Hamza Abdul-Hameed Ali 20200162
+The following dependencies need to be installed in order to run this project:
 
-To build this project you need:
+- Java 14 or later
+- Spring web framework 3.0.1
+- Apache Tomcat web server
+- Postman API client
 
- - Java 14 or above.
- - Spring boot 3.0.1
- - Apache tomcat web server
- - Postman API platform
+## Setting up the project
 
-Import the project as a Maven project in your Eclipse IDE. Then run as a Spring project. Open postman collection and send your API requests from there.
+1. Clone the repository
+2. Import the project as a Maven project in a Java IDE such as Eclipse or IntelliJ IDEA
+3. Build and run the project
+
+## Testing the service
+
+You can use the Postman API client and the Postman collection at https://elements.getpostman.com/redirect?entityId=24966058-2c683fc3-d9a0-4563-a97b-43a8a4860cad&entityType=collection to test the service.
+
